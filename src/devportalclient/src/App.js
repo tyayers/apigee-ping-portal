@@ -3,13 +3,14 @@ import Home from './components/home.jsx'
 import './App.css';
 
 const homeData = {
-  title: 'Apigee PING Developer Portal',
-  body: 'The most fastest, most secure way to onboard developers.',
+  title: 'Apigee Ping Developer Portal',
+  body: 'The fastest, most secure way to onboard developers.',
 };
 
 function App() {
   const cms = new TinaCMS({
     sidebar: true,
+    toolbar: false,
     enabled: true
   });
 

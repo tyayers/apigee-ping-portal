@@ -1,7 +1,9 @@
+import React from 'react'
 import { TinaProvider, TinaCMS, useCMS, useForm, usePlugin } from 'tinacms';
 import PrimarySearchAppBar from './navbar'
 import SignIn from './signin'
 import ApiProducts from './apis'
+import Profile from './profile'
 import {
   BrowserRouter as Router,
   Switch,
@@ -9,15 +11,15 @@ import {
   Link
 } from "react-router-dom";
 
-import logo from '../gcp.png';
+import logo from '../apigee-icon-blue.svg';
 
 const homeData = {
-  title: 'Apigee PING Developer Portal',
-  tag: 'The fastest and most secure way to onboard developers.',
+  title: 'Apigee Ping Developer Portal',
+  tag: 'Fast and secure developer onboarding.',
 };
 
 function Home() {
-  const formConfig = {
+    const formConfig = {
     id: 'tina-tutorial-index',
     label: 'Edit Page',
     fields: [
@@ -38,23 +40,30 @@ function Home() {
     },
   };
 
-  // 3. Create the form
-  const [editableData, form] = useForm(formConfig)
+  const [user, setUser] = React.useState(undefined);
 
-  // 4. Register it with the CMS
+  const [editableData, form] = useForm(formConfig)
   usePlugin(form)
+
+  const handleUserChange = function(user) {
+    //alert("user alert!")
+    setUser(user);
+  };
 
   return (
     <div>
       <Router>
-        <PrimarySearchAppBar title={editableData.title}/>
+        <PrimarySearchAppBar title={editableData.title} user={user}/>
         <Switch>
           <Route path="/signin">
-            <SignIn />
+            <SignIn onUserChange={handleUserChange}/>
           </Route>
           <Route path="/apis">
             <ApiProducts title={editableData.title} tag={editableData.tag} />
-          </Route>          
+          </Route>
+          <Route path="/profile">
+            <Profile title={editableData.title} tag={editableData.tag} user={user}/>
+          </Route>
           <Route path="/">
             <section className="App-header">
               <img src={logo} className="App-logo" alt="logo" />

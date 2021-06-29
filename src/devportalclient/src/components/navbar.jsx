@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  useHistory,
 } from "react-router-dom";
 
 // MATERIAL IMPORTS
@@ -92,6 +93,7 @@ export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const history = useHistory();
 
   const [user, setUser] = React.useState();
 
@@ -111,6 +113,16 @@ export default function PrimarySearchAppBar(props) {
     handleMobileMenuClose();
   };
 
+  const handleMyAccount = () => {
+    handleMenuClose();
+    history.push("/profile");
+  };
+
+  const handleSignOut = () => {
+    handleMenuClose();
+    history.push("/");
+  };
+
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
@@ -126,8 +138,8 @@ export default function PrimarySearchAppBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMyAccount}>My account</MenuItem>
+      <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
     </Menu>
   );
 
@@ -184,9 +196,9 @@ export default function PrimarySearchAppBar(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Link to="/"><Typography className={classes.title} variant="h6" noWrap style={{color: "white", textDecoration: "none"}}>
             {props.title}
-          </Typography>
+          </Typography></Link>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -202,7 +214,7 @@ export default function PrimarySearchAppBar(props) {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            {!user
+            {!props.user
             ? <Button color="inherit" href="/signin">Login</Button>
             : <div> 
             <IconButton aria-label="show 4 new mails" color="inherit">

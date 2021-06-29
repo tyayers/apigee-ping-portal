@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import ApiProductCard from './apiproduct';
 
-import logo from '../gcp.png';
+import logo from '../apigee-icon-blue.svg';
 
 export default function ApiProducts(props) {
 

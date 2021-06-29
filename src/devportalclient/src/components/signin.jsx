@@ -1,10 +1,12 @@
 import React from 'react';
 import { useEffect } from 'react';
 import PfAuthnWidget from '@ping-identity/pf-authn-js-widget'
+import { useHistory } from "react-router-dom";
 
 export default function SignIn(props) {
 
   const [authenticated, setAuthenticate] = React.useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     var baseUrl = 'https://apigee.ping-devops.com:9031';
@@ -19,9 +21,11 @@ export default function SignIn(props) {
       onAuthorizationSuccess: function(response) {
         console.log("Authentication successful");
         console.log(response);
-
+        var code = response.code;
+        console.log(code);
         setAuthenticate(true);
-
+        props.onUserChange({user: "user", code: code})
+        history.push("/apis");
       }
     };
     authnWidget.initRedirectless(config);
